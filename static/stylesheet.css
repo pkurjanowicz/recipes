@@ -1,11 +1,11 @@
 body {
-    background-color: #f7f3e9;
+    background-color: #ffeded;
     font-family: "Arial Black", sans-serif;
 }
 #main-container {
     width: 100%;
     margin: 10% 0 0 0;
-    background-color: #f7f3e9;
+    background-color: #ffeded;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -55,10 +55,10 @@ input[type="submit"] {
     background-color: #ffff;
     margin: 20px;
     padding: 10px;
-    border: 3px solid #ffc536;
+    border: 3px solid #ffd4d4;
     border-radius: 5px;
     font: Sans-serif;
-    color: #ffc536;
+    color: #ff2626;
     font-size: 20px;
     -webkit-transition-duration: 0.4s; 
     transition-duration: 0.4s;
@@ -66,7 +66,7 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-    background-color: #ffc536;
+    background-color: #ff2626;
     color:#ffffff;
     font-size: 20px;
 }
