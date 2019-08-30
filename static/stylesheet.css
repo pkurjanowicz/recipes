@@ -89,6 +89,7 @@ img {
     height: auto;
     max-width: 600px;
     max-height: 600px;
+    padding: 25px 0 0 0;
 }
 li {
     display: flex;
@@ -103,4 +104,15 @@ li {
 }
 #title-image li{
     list-style-type: none;
+}
+#recipe-list p {
+    margin: 0px;
+}
+#recipe-list h3 {
+    padding: 0px;
+    margin: 0px;
+}
+#recipe-list h2 {
+    padding: 0px;
+    margin: 0px;
 }

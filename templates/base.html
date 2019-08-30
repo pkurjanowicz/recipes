@@ -9,13 +9,14 @@
             <table id="table">
                 <tbody id="tbody">
                     <input type="text" id="inp" name="query" placeholder="Search Food" autocomplete="off">
-                    <input type="submit"/>
+                    <input type="submit" id="btn"/>
                 </tbody>
             </table>
         </form>
         <br><br>
             <div id="title-image"></div>
             <div id="list-container">
+                <h2 style=display:none;>Ingredient List</h2>
                 <ul id="recipe-list"></ul>
             </div>
             <div id="recipe-steps">
@@ -26,6 +27,6 @@
 </body>
 <script type="text/javascript" src="{{
     url_for('static', filename='js/app.js') }}"></script>
-<script type="text/javascript" src="{{
-    url_for('static', filename='js/secrets.js') }}"></script>
+<!-- <script type="text/javascript" src="{{
+    url_for('static', filename='js/secrets.js') }}"></script> -->
 </html>

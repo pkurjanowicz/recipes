@@ -8,16 +8,15 @@ function append(parent, el) {
     return parent.appendChild(el);
 }
 
-function imgSize(){
-	var myImg = document.querySelector("img");
-	var realWidth = myImg.naturalWidth;
-	var realHeight = myImg.naturalHeight;
-	if (realWidth < 800 || realHeight < 800) {
-		return true
-	} else {
-		return false
+//removes all list items when submit button is clicked
+let listItems = document.getElementById("recipe-list");
+function removeElement() {
+	if ( listItems != null) {
+		var ul = document.getElementById("recipe-list");
+		while(ul.firstChild) ul.removeChild(ul.firstChild);
 	}
 }
+
 const ul = document.getElementById('recipe-list');
 const stepList = document.getElementById('recipe-step-list');
 const loginForm = document.getElementById('login-form')
@@ -25,6 +24,7 @@ const titleImage = document.getElementById('title-image')
 
 loginForm.addEventListener('submit', evt => {
 	evt.preventDefault();
+	removeElement();
 	const query = loginForm.querySelector('input[type="text"]').value;
 
     fetch(`https://api.spoonacular.com/recipes/search?apiKey=${apiKey}&query=${query}`)
@@ -51,12 +51,9 @@ loginForm.addEventListener('submit', evt => {
 					append(li, a);
 					append(ul, li);
 				})
-			.catch(function(error) {
-				console.log(error);
-			});   
+			});
+		loginForm.querySelector('input[type="text"]').value = '';
 		});
-	loginForm.querySelector('input[type="text"]').value = '';
-	});
 
 
 //checking query string for parameters then using them in next API call
@@ -64,6 +61,8 @@ let urlParams = new URLSearchParams(window.location.search);
 if (urlParams.has('id')) {
 	document.getElementById("login-form").style.display = "none";
 	document.getElementById("main-container").style.margin= 0;
+	let h2Ingredients = document.querySelector("#list-container h2")
+	h2Ingredients.style.display='block'
 	const itemId = urlParams.get('id');
 	fetch(`https://api.spoonacular.com/recipes/${itemId}/ingredientWidget.json?apiKey=${apiKey}`)
         .then(response => response.json())
@@ -76,7 +75,7 @@ if (urlParams.has('id')) {
 					h4Name = createNode('h3'),
 					spanAmount = createNode('span');
 				h4Name.innerHTML = `${item.name}`;
-				spanAmount.innerHTML = ` , ${item.amount.us.value} ${item.amount.us.unit}`;
+				spanAmount.innerHTML = `: ${item.amount.us.value} ${item.amount.us.unit}`;
 				append(li, h4Name);
 				append(h4Name, spanAmount);
 				append(ul, li);
