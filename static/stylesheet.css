@@ -80,6 +80,21 @@ input[type="submit"]:active{
     flex-direction: row;
     flex-wrap: wrap;
 }
+#list-container li{
+    display:flex;
+    list-style-type: none;
+}
+img {
+    width: 100%;
+    height: auto;
+    max-width: 600px;
+    max-height: 600px;
+}
+li {
+    display: flex;
+    flex-direction: column;
+}
+
 #recipe-list li {
     list-style-type: none;
 }

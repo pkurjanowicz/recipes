@@ -1,4 +1,4 @@
-
+const apiKey = '403452aaf2cc481286179303f4837ac7'
 
 function createNode(element) {
     return document.createElement(element);
@@ -7,13 +7,24 @@ function createNode(element) {
 function append(parent, el) {
     return parent.appendChild(el);
 }
+
+function imgSize(){
+	var myImg = document.querySelector("img");
+	var realWidth = myImg.naturalWidth;
+	var realHeight = myImg.naturalHeight;
+	if (realWidth < 800 || realHeight < 800) {
+		return true
+	} else {
+		return false
+	}
+}
 const ul = document.getElementById('recipe-list');
 const stepList = document.getElementById('recipe-step-list');
 const loginForm = document.getElementById('login-form')
 const titleImage = document.getElementById('title-image')
 
 loginForm.addEventListener('submit', evt => {
-    evt.preventDefault();
+	evt.preventDefault();
 	const query = loginForm.querySelector('input[type="text"]').value;
 
     fetch(`https://api.spoonacular.com/recipes/search?apiKey=${apiKey}&query=${query}`)
@@ -21,32 +32,31 @@ loginForm.addEventListener('submit', evt => {
         .then(data => {
 			console.log(data)
 			let recipesItems = data.results;
-			
-			return recipesItems.forEach(function(item) {
-				let li = createNode('li'),
-					h2Title = createNode('h2');
-					pReadyIn = createNode('p');
-					pServings = createNode('p');
-					img = createNode('img'),
-					a = createNode('a'),
-				img.src = `https://spoonacular.com/recipeImages/${item.image}`;
-				a.href = `/?id=${item.id}`
-				h2Title.innerHTML = item.title;
-				pReadyIn.innerHTML = `Ready in Minutes: ${item.readyInMinutes}`
-				pServings.innerHTML = `Number of Servings: ${item.servings}`
-				append(li, h2Title);
-				append(li, pReadyIn);
-				append(li, pServings);
-				append(a , img)
-				append(li, a);
-				append(ul, li);
-			})
-        })
-    .catch(function(error) {
-		console.log(error);
-	})   
-});
-
+				return recipesItems.forEach(function(item) {
+					let li = createNode('li'),
+						h2Title = createNode('h2');
+						pReadyIn = createNode('p');
+						pServings = createNode('p');
+						img = createNode('img'),
+						a = createNode('a'),
+					img.src = `https://spoonacular.com/recipeImages/${item.image}`;
+					a.href = `/?id=${item.id}`
+					h2Title.innerHTML = item.title;
+					pReadyIn.innerHTML = `Ready in Minutes: ${item.readyInMinutes}`
+					pServings.innerHTML = `Number of Servings: ${item.servings}`
+					append(li, h2Title);
+					append(li, pReadyIn);
+					append(li, pServings);
+					append(a , img)
+					append(li, a);
+					append(ul, li);
+				})
+			.catch(function(error) {
+				console.log(error);
+			});   
+		});
+	loginForm.querySelector('input[type="text"]').value = '';
+	});
 
 
 //checking query string for parameters then using them in next API call
