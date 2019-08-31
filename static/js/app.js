@@ -70,7 +70,7 @@ getListofRecipes = (query) => {
 		loginForm.querySelector('input[type="text"]').value = '';
 }
 
-//main search page event listener
+//main search page submit event listener
 loginForm.addEventListener('submit', evt => {
 	evt.preventDefault();
 	removeElement();
@@ -85,50 +85,7 @@ if (urlParams.has('query') == true && urlParams.has('id') == false) {
 	getListofRecipes(query);
 }
 
-//checking query string for parameters then using them in next API call
-if (urlParams.has('id')) {
-	document.getElementById("login-form").style.display = "none";
-	document.getElementById("main-container").style.margin= 0;
-	const itemId = urlParams.get('id');
-	displayElements();
-	fetch(`https://api.spoonacular.com/recipes/${itemId}/ingredientWidget.json?apiKey=${apiKey}`)
-        .then(response => response.json())
-        .then(data => {
-			console.log(data)
-			let ingredientsList = data.ingredients;
-
-			return ingredientsList.forEach(function(item) {
-				let li = createNode('li'),
-					h4Name = createNode('h3'),
-					spanAmount = createNode('span');
-				h4Name.innerHTML = `${item.name}`;
-				spanAmount.innerHTML = `: ${item.amount.us.value} ${item.amount.us.unit}`;
-				append(li, h4Name);
-				append(h4Name, spanAmount);
-				append(ul, li);
-			})
-		})
-	}
-if (urlParams.has('id')) {
-	const itemId = urlParams.get('id');
-	fetch(`https://api.spoonacular.com/recipes/${itemId}/analyzedInstructions?apiKey=${apiKey}`)
-		.then(response => response.json())
-		.then(data => {
-			console.log(data)
-			let stepData = data[0].steps;
-
-			return stepData.forEach(function(item) {
-				let li = createNode('li'),
-					h2StepNumber = createNode('h2'),
-					pStepInstructions = createNode('p');
-				h2StepNumber.innerHTML = `Step: ${item.number}`;
-				pStepInstructions.innerHTML = `${item.step}`;
-				append(li, h2StepNumber);
-				append(li, pStepInstructions);
-				append(stepList, li);
-			})
-		})
-	}
+//gets the title and image and adds it to the DOM
 if (urlParams.has('id')) {
 	const itemId = urlParams.get('id');
 	fetch(`https://api.spoonacular.com/recipes/${itemId}/information?apiKey=${apiKey}`)
@@ -145,4 +102,50 @@ if (urlParams.has('id')) {
 				append(titleImage, li);
 			})
 		}
-		
+
+//gets a list of ingredients and adds them to the DOM
+if (urlParams.has('id')) {
+	document.getElementById("login-form").style.display = "none";
+	document.getElementById("main-container").style.margin= 0;
+	const itemId = urlParams.get('id');
+	displayElements();
+	fetch(`https://api.spoonacular.com/recipes/${itemId}/ingredientWidget.json?apiKey=${apiKey}`)
+        .then(response => response.json())
+        .then(data => {
+			console.log(data)
+			let ingredientsList = data.ingredients;
+			return ingredientsList.forEach(function(item) {
+				let li = createNode('li'),
+					h4Name = createNode('h3'),
+					spanAmount = createNode('span');
+				h4Name.innerHTML = `${item.name}`;
+				spanAmount.innerHTML = `: ${item.amount.us.value} ${item.amount.us.unit}`;
+				append(li, h4Name);
+				append(h4Name, spanAmount);
+				append(ul, li);
+			})
+		})
+	}
+
+//gets a list steps and adds them to the DOM
+if (urlParams.has('id')) {
+	const itemId = urlParams.get('id');
+	fetch(`https://api.spoonacular.com/recipes/${itemId}/analyzedInstructions?apiKey=${apiKey}`)
+		.then(response => response.json())
+		.then(data => {
+			console.log(data)
+			let stepData = data[0].steps;
+			return stepData.forEach(function(item) {
+				let li = createNode('li'),
+					h2StepNumber = createNode('h2'),
+					pStepInstructions = createNode('p');
+				h2StepNumber.innerHTML = `Step: ${item.number}`;
+				pStepInstructions.innerHTML = `${item.step}`;
+				append(li, h2StepNumber);
+				append(li, pStepInstructions);
+				append(stepList, li);
+			})
+		})
+	}
+
+
