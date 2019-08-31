@@ -1,4 +1,4 @@
-const apiKey = '403452aaf2cc481286179303f4837ac7'
+apiKey = apiKey();
 
 const ul = document.getElementById('recipe-list');
 const stepList = document.getElementById('recipe-step-list');
