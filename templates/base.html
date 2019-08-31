@@ -4,12 +4,13 @@
         <link type="text/css" rel="stylesheet" href="static/stylesheet.css">
     </head>
 <body>
+    <button class="btn" id='back-btn' style=display:none; onclick="backBtnLocation()">Back</button>
     <div id="main-container">
         <form id='login-form' onsubmit="">
             <table id="table">
                 <tbody id="tbody">
                     <input type="text" id="inp" name="query" placeholder="Search Food" autocomplete="off">
-                    <input type="submit" id="btn"/>
+                    <input type="submit" id="btn" class="btn"/>
                 </tbody>
             </table>
         </form>

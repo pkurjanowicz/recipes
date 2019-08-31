@@ -51,7 +51,7 @@ input[type=text]:focus {
     width: 100%;
 }
 
-input[type="submit"] {
+.btn {
     background-color: #ffff;
     margin: 20px;
     padding: 10px;
@@ -65,16 +65,17 @@ input[type="submit"] {
     outline: none;
 }
 
-input[type="submit"]:hover {
+.btn:hover {
     background-color: #ff2626;
     color:#ffffff;
     font-size: 20px;
 }
-input[type="submit"]:active{
+.btn:active{
     -webkit-transition-duration: .1s; 
     transition-duration: .2s;
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
+
 #list-container {
     display:flex;
     flex-direction: row;
@@ -115,4 +116,7 @@ li {
 #recipe-list h2 {
     padding: 0px;
     margin: 0px;
+}
+#back-btn {
+    float: left;
 }

@@ -1,33 +1,48 @@
 const apiKey = '403452aaf2cc481286179303f4837ac7'
 
+const ul = document.getElementById('recipe-list');
+const stepList = document.getElementById('recipe-step-list');
+const loginForm = document.getElementById('login-form')
+const titleImage = document.getElementById('title-image')
+const mainContainer = document.getElementById('main-container')
+let urlParams = new URLSearchParams(window.location.search);
+
+//helper function to create element
 function createNode(element) {
     return document.createElement(element);
 }
 
+//helper function to tie parent to child element
 function append(parent, el) {
     return parent.appendChild(el);
 }
 
 //removes all list items when submit button is clicked
 let listItems = document.getElementById("recipe-list");
-function removeElement() {
+removeElement = () => {
 	if ( listItems != null) {
 		var ul = document.getElementById("recipe-list");
 		while(ul.firstChild) ul.removeChild(ul.firstChild);
 	}
 }
 
-const ul = document.getElementById('recipe-list');
-const stepList = document.getElementById('recipe-step-list');
-const loginForm = document.getElementById('login-form')
-const titleImage = document.getElementById('title-image')
+//displays hidden elements when user gets to the ?id= page
+displayElements = () => {
+	let h2Ingredients = document.querySelector("#list-container h2");
+	h2Ingredients.style.display='block';
+	let backBtn = document.getElementById('back-btn');
+	backBtn.style.display='block';
+}
 
-loginForm.addEventListener('submit', evt => {
-	evt.preventDefault();
-	removeElement();
-	const query = loginForm.querySelector('input[type="text"]').value;
+//sets a back button location dynamically based on previous search results
+backBtnLocation = () => {
+		const queryValue = urlParams.get('query');
+		return location.href = `/?query=${queryValue}`;
+}
 
-    fetch(`https://api.spoonacular.com/recipes/search?apiKey=${apiKey}&query=${query}`)
+//Calls the API to get a list of recipes based on query results
+getListofRecipes = (query) => {
+	fetch(`https://api.spoonacular.com/recipes/search?apiKey=${apiKey}&query=${query}`)
         .then(response => response.json())
         .then(data => {
 			console.log(data)
@@ -40,7 +55,7 @@ loginForm.addEventListener('submit', evt => {
 						img = createNode('img'),
 						a = createNode('a'),
 					img.src = `https://spoonacular.com/recipeImages/${item.image}`;
-					a.href = `/?id=${item.id}`
+					a.href = `/?id=${item.id}&query=${query}`
 					h2Title.innerHTML = item.title;
 					pReadyIn.innerHTML = `Ready in Minutes: ${item.readyInMinutes}`
 					pServings.innerHTML = `Number of Servings: ${item.servings}`
@@ -53,17 +68,29 @@ loginForm.addEventListener('submit', evt => {
 				})
 			});
 		loginForm.querySelector('input[type="text"]').value = '';
+}
+
+//main search page event listener
+loginForm.addEventListener('submit', evt => {
+	evt.preventDefault();
+	removeElement();
+	const query = loginForm.querySelector('input[type="text"]').value;
+	location.href = `/?query=${query}`
+	getListofRecipes(query);
 		});
 
+//when user hits back button main page search results
+if (urlParams.has('query') == true && urlParams.has('id') == false) {
+	const query = urlParams.get('query');
+	getListofRecipes(query);
+}
 
 //checking query string for parameters then using them in next API call
-let urlParams = new URLSearchParams(window.location.search);
 if (urlParams.has('id')) {
 	document.getElementById("login-form").style.display = "none";
 	document.getElementById("main-container").style.margin= 0;
-	let h2Ingredients = document.querySelector("#list-container h2")
-	h2Ingredients.style.display='block'
 	const itemId = urlParams.get('id');
+	displayElements();
 	fetch(`https://api.spoonacular.com/recipes/${itemId}/ingredientWidget.json?apiKey=${apiKey}`)
         .then(response => response.json())
         .then(data => {
@@ -118,3 +145,4 @@ if (urlParams.has('id')) {
 				append(titleImage, li);
 			})
 		}
+		
